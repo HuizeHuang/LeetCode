@@ -1,0 +1,90 @@
+class Solution {
+    /*
+    * *Try to come up as many solutions as you can, 
+    * there are at least 3 different ways to solve this problem.
+    * *Could you do it in-place with O(1) extra space?
+    */
+    
+    /*
+    // Approach 1 - Brute Force
+    // time O(n * k) space O(1)
+    public void rotate(int[] nums, int k) {
+        int n = nums.length;
+        if (nums == null || n == 0) return;
+        
+        for (int i = 0; i < k; i++){
+            int last = nums[n - 1];
+            for (int j = n - 1; j > 0; j--){
+                nums[j] = nums[j - 1];
+            }
+            nums[0] = last;
+        }
+    }
+    
+    // Approach 2 - using extra array
+    // time O(n) space O(k)
+    public void rotate(int[] nums, int k) {
+        int n = nums.length;
+        int a[] = new int[n];
+        
+        // To avoid k is larger than the length of array
+        int kk = k % n;
+        for (int i = 1; i <= kk; i++)
+            a[kk - i] = nums[n - i];
+        
+        for (int j = n - 1; j >= kk; j--)
+            nums[j] = nums[j - kk];
+        
+        for(int i = 0; i < kk; i++)
+            nums[i] = a[i];
+    }
+     
+    
+    // Approach 3 - Cyclic Replacements
+    // take k steps each time
+    // time O(n) space O(1)
+     public void rotate(int[] nums, int k) {
+         int n = nums.length;
+         if (nums == null || n == 0) return;
+         k = k % n;
+         int count = 0;
+         int start = 0;
+         for (; count < n; start++){
+             int curr = start;
+             int prev = nums[start];
+             do{
+                 int next = (curr + k) % n;
+                 int temp = nums[next];
+                 nums[next] = prev;
+                 prev = temp;
+                 curr = next;
+                 count++;
+             }while (curr != start);
+         }
+     }
+    */
+    
+    // Approach 4 - Using Reverse
+    // the key point is reverse an array
+    // time O(n) space O(1)
+     public void rotate(int[] nums, int k) {
+         int n = nums.length;
+         if (nums == null || n == 0) return;
+         k = k % n;
+         reverse(nums, 0, n - 1);   // reverse the whole array
+         reverse(nums, 0, k - 1);   // reverse the first k elements in array
+         reverse(nums, k, n - 1);   // reverse the rest n-k elements in array
+     }
+    
+     public void reverse(int[] nums, int start, int end){
+         while (start < end) {
+             int temp = nums[start];
+             nums[start] = nums[end];
+             nums[end] = temp;
+             start++;
+             end--;
+         }
+     }
+    
+    
+}
