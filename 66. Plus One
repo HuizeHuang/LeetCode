@@ -1,0 +1,18 @@
+class Solution {
+    public int[] plusOne(int[] digits) {
+        // time O(n) space O(1) or O(n+1)
+        int n = digits.length;
+        for(int i = n-1; i >=0; i--){
+            if(digits[i] < 9){
+                digits[i]++;
+                return digits;
+            }
+            digits[i] = 0;
+        }
+        
+        // if it's all 9s
+        int[] newNum = new int[n + 1]; //by default all digits in new array are 0
+        newNum[0] = 1;
+        return newNum;
+    }
+}
