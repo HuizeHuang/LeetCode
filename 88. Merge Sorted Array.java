@@ -3,6 +3,7 @@ class Solution {
     // time O(m * n) space O(1)
     
     // Approach 2 - start from the end 从后往前比较！！
+    // time O(m) or O(n) space O(1)
     public void merge(int[] nums1, int m, int[] nums2, int n) {
         int i = m - 1;
         int j = n - 1;
