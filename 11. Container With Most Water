@@ -1,0 +1,37 @@
+class Solution {
+    public int maxArea(int[] height) {
+        /*
+        // Approach 1
+        // The first thought would be brute force, two for loops, try all the combinations
+        // time O(n*(n-1)/2) space O(1)
+        int maxArea = 0;
+        int n = height.length;
+        for(int i = 0; i < n; i++){
+            for(int j = i; j < n; j++){
+                maxArea = Math.max(maxArea, (j-i) * Math.min(height[i], height[j]));
+            }
+        }
+        return maxArea;
+        */
+        
+        
+        //Approach 2
+        // This is to find the maximum area between two integers
+        // we use two indices to record two borders. left and right(i and j)
+        // if ai < aj, move i to the right, if ai > aj, move j to the left
+        // time O(n) space O(1)
+        
+        int n = height.length;
+        if(height == null || n < 2) return 0;
+        
+        int left = 0;
+        int right = n - 1;
+        int maxArea = -1;
+        while(left < right){
+            maxArea = Math.max(maxArea, (right - left) * Math.min(height[left], height[right]));
+            if(height[left] < height[right]) left++;
+            else right--;
+        }
+        return maxArea;
+    }
+}
