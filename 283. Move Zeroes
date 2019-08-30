@@ -1,0 +1,35 @@
+class Solution {
+    public void moveZeroes(int[] nums) {
+        //Approach 1 -- 0ms --Space Optimal, Operation Sub-Optimal
+        //first thought would be two iterations, the first iteration to shift
+        //all non zeros forward, the second iteration would be to fill the remaining 
+        //with zeros
+        //the second iteration will start at a recorded position in the first loop, 
+        //so O(n + a), a is how many zeros here 
+        /*
+        if(nums == null || nums.length == 0) return;
+        
+        int firstZeroPos = 0;
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] != 0)
+                nums[firstZeroPos++] = nums[i];
+        }
+        for(int j = firstZeroPos; j < nums.length; j++){
+            nums[j] = 0;
+        }
+        */
+        
+        //Appoach2 -- 0ms - optimal
+        //Only one iteration is needed. Use two indices to indicate the first zero 
+        //position and the current position
+        if(nums == null || nums.length == 0) return;
+        int firstZeroPos = 0;
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] != 0){
+                int temp = nums[firstZeroPos];
+                nums[firstZeroPos++] = nums[i];
+                nums[i] = temp;
+            }
+        }
+    }
+}
