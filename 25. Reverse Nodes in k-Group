@@ -1,0 +1,64 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    // learn how to reverse a linked list
+    // Approach 1, iteratively
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if (head == null || head.next == null || k == 1)
+            return head;
+        
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        
+        ListNode curr = head, begin = dummy;
+        int i = 0;
+        
+        while(curr != null){
+            i++;
+            if (i % k == 0){
+                begin = reverseList(begin, curr.next);
+                /*** !!!! ***/
+                curr = begin.next;
+            }
+            else{
+                curr = curr.next;
+            }
+        }
+        
+        return dummy.next;
+    }
+    
+    /* Reverse a link list between begin and end exclusively
+     * an example:
+     * a linked list:
+     * 0->1->2->3->4->5->6
+     * |           |   
+     * begin       end
+     * after call begin = reverse(begin, end)
+     * 
+     * 0->3->2->1->4->5->6
+     *          |  |
+     *      begin end
+     * @return the reversed list's 'begin' node, which is the precedence of node end
+     */
+    public ListNode reverseList(ListNode begin, ListNode end) {
+        ListNode prev = begin, curr = begin.next, first = curr;
+        
+        while(curr != end){
+            ListNode tempNext = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = tempNext;
+        }
+        
+        begin.next = prev;
+        first.next = end;
+        return first;
+    }
+}
