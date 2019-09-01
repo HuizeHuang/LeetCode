@@ -1,5 +1,5 @@
 class Solution {
-    /*
+    
     // Approach 1 - Brute Force
     // time - O(n ^ 2) space O(1)
     public int trap(int[] height) {
@@ -74,7 +74,7 @@ class Solution {
         }
         return totalWater;
     }
-    */
+    
     
     // Approach 4 - Using two pointers 
     // 左右两个指针，如果左指针的值大于右边的，说明右指针的左边肯定有一个bound
