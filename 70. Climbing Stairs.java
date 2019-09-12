@@ -32,7 +32,21 @@ class Solution {
         memo[i] = climb_stairs_with_memo(memo, i+1, n) + climb_stairs_with_memo(memo, i+2,n);
         return memo[i];
     }
-    // leave to DP exercise
+    //or
+    
+    // 2.recursion with memoization
+    public int climbStairs(int n) {
+        int[] memo = new int[n + 1];
+        return helper(n, memo);
+    }
+     public int helper(int n, int[] memo) {
+         if (n <= 2) return n;
+         if (memo[n] > 0) return memo[n];
+         memo[n] = helper(n - 1, memo) + helper(n - 2, memo);
+         return memo[n];
+     }
+    
+    // other approaches left to DP exercise
     
      // if you were asked to print all different ways
      public void printStairs(int n){
