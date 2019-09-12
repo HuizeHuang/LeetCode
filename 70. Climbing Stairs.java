@@ -46,6 +46,24 @@ class Solution {
          return memo[n];
      }
     
+    /********************************/
+    // print all the possible paths
+    public int climbStairs(int n) {
+        
+        helper(n, "");
+        
+        return 0;
+    }
+    public void helper(int n, String curr) {
+        if (n < 0) return;
+        
+        if (n == 0) 
+            System.out.println(curr);
+        
+        helper(n - 1, curr + "1" );
+        helper(n - 2, curr + "2");
+    }
+    
     // other approaches left to DP exercise
     
      // if you were asked to print all different ways
