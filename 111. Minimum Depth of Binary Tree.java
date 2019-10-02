@@ -21,7 +21,8 @@ class Solution {
     }
     */
     
-    // Approach 2 - iteratively
+    // Approach 2 - BFS - iteratively - level order traversal
+    // 从左到右找到的第一个左右子节点为空的就返回当前级数(level)
     // 在每一层level中，如果有左右节点都为空 就返回当前层数
     // 也可以用两个queue，一个存节点，一个记录每个节点当前的层数
     // time O(n) space O(n)
