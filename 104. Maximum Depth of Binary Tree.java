@@ -48,7 +48,8 @@ class Solution {
     
     // Approach 3 - DFS - Stack
     // Use two stacks, one to store nodes, one to store current counting levels
-    // time space
+    // 更新counter是用当前pop出来的更新，用另一个数记录当前最大的数
+    // time - O(n) space - O(legn)
     public int maxDepth(TreeNode root) {
         if (root == null) return 0;
         Stack<TreeNode> stack = new Stack();
