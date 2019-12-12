@@ -1,57 +1,60 @@
 class Solution {
-    /*
+    
     // Approach 1 - Hash table using sorted string
-    // Use sorted string as key, their number of occurrences as values
+    // Use sorted string as key, list of strings that have the same sorted string as values
     // time O(n * klogk) - n is length of array, k is length of maximum string
+    // sorting algorithm is Dual-Pivot Quicksort klog(k) is time-complexity
     // space O(n * k)
     public List<List<String>> groupAnagrams(String[] strs) {
 
         if (strs == null || strs.length == 0) return new ArrayList<>();
         
         Map<String, List<String>> table = new HashMap<>();
-        for(String s : strs) {
-            char[] sorted = s.toCharArray();
-            Arrays.sort(sorted);
-            String sortedStr = String.valueOf(sorted);
-            
-            if (!table.containsKey(sortedStr)) 
-                table.put(sortedStr, new ArrayList<String>());
-            
-            table.get(sortedStr).add(s);
+        
+        for (String word : strs) {
+            char[] chars = word.toCharArray();
+            Arrays.sort(chars);
+            String sorted = String.valueOf(chars);
+            if (!table.containsKey(sorted)) 
+                table.put(sorted, new ArrayList<String>());
+            table.get(sorted).add(word);
         }
-        // table的value可以直接提取出来
+
         return new ArrayList(table.values());
     }
-    */
-    
-    // Approach 2 - Hash table using counting alphabet
-    // time O(max(n, k)) space O(n * k)
-    public List<List<String>> groupAnagrams(String[] strs) {
-        // three parts
-        // first we count each strng how many alphabet each
-        // second turn the counting array into a string
-        // third look up in the map
         
+    
+    
+    
+    // Approach 2 - Categorize by Counting String
+    // Hash table - Use #0#1#5#0... as key
+    // time - O(nk), space - O(nk)
+    public List<List<String>> groupAnagrams(String[] strs) {
         if (strs == null || strs.length == 0) return new ArrayList();
-        Map<String, List<String>> map = new HashMap();
-        for (String s : strs) {
-            // first part
-            int[] counter = new int[26];
-            for (char c : s.toCharArray()) {
-                counter[c - 'a']++;
+        Map<String, List<String>> table = new HashMap();
+        int[] count = new int[26];
+        
+        for (String word : strs) {
+            char[] chars = word.toCharArray();
+            Arrays.fill(count, 0);
+            for (char letter : chars) {
+                count[letter - 'a']++;
             }
-            
-            // second part
-            String key = "";
-            for (int count : counter) {
-                key += "#" + Integer.toString(count);
+            StringBuilder sb = new StringBuilder("");
+            for (int i : count) {
+                sb.append('#');
+                sb.append(i);
             }
+            String key = sb.toString();
             
-            // third part
-            if (!map.containsKey(key))
-                map.put(key, new ArrayList<String>());
-            map.get(key).add(s);
+            if (!table.containsKey(key))
+                table.put(key, new ArrayList());
+            table.get(key).add(word);
+            
         }
-        return new ArrayList(map.values());
+        return new ArrayList(table.values());
     }
+    
+
+   
 }
