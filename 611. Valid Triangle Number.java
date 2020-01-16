@@ -50,6 +50,7 @@ class Solution {
         if (nums == null || nums.length == 0) return res;
         Arrays.sort(nums);
         for (int i = 2; i < nums.length; i++) {
+            // use two pointers to iterate the array before i once
             int left = 0, right = i - 1;
             while (left < right) {
                 
