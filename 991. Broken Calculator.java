@@ -30,6 +30,11 @@ class Solution {
     
     // Approach 2 - Working backwards
     // if we start from X to Y, it may be not the minimum steps that we need
+    // why?
+    // If with subtraction and multiplication, the effect of earlier subtraction will be amplified by later multiplications, 
+    // hence, greedily doing multiplication might not reach optimal solution as an additional early subtraction can have a huge effect.
+    // Whereas with addition and division, earlier addition will be diminished by later divisions. 
+    // It is thus always better to do division wherever possible.
     // We start from Y going backwards to X
     // if Y is smaller than X, then it definitely can be reached by only subtracting
     // if Y is larger than X, then 
