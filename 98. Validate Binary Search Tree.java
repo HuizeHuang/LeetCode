@@ -8,71 +8,105 @@
  * }
  */
 class Solution {
-    /*
-    // Approach 1 - Recursion
-    // 在helper function函数变量中加入记录父结点值的变量
-    // time O(n) space O(n)
-    public boolean isValidBST(TreeNode root) {
-        //use Object Integer and null pointer instead of using Integer.MIN_VALUE to avoid the           // corner cases (when node has value Integer.MIN_VALUE or Integer.MAX_VALUE ).
-        return helper(root, null, null);
+    // It's a pre-order traversal
+    // 1. Not only the left and right child should satisfy the condition, all the elements
+    // in the subtree should also satisfy the condition.
+    // [10,5,15,null,null,6,20]
+    // 2. equal elements are not allowed in any of the subtrees
+    // 3. compare to value above
+    
+    // Approach 1 - Pre-order Traversal - recursively
+    // for left subtree, its upper bound is the root value, root's lower bound
+    // for right subtree, its lower bound is the root value, root's upper bound
+    // time: O(n)
+    // space:O(logn)
+    public boolean isValidBST1(TreeNode root) {
+       return dfs(root, null, null);
     }
-    public boolean helper(TreeNode root, Integer low, Integer high) {
-        if (root == null)
-            return true;
-        if ((low != null && root.val <= low) || (high != null && root.val >= high))
+    
+    public boolean dfs(TreeNode root, Integer lower, Integer upper) {
+        if (root == null) return true;
+        
+        if (lower != null && root.val <= lower) return false;
+        if (upper != null && root.val >= upper) return false;
+        
+        return dfs(root.left, lower, root.val) && dfs(root.right, root.val, upper);
+    }
+    
+    
+    // Approach 1 - Pre-order - iteratively - 3 stacks
+    Stack<TreeNode> stack = new Stack();
+    Stack<Integer> lowers = new Stack();
+    Stack<Integer> uppers = new Stack();
+    
+    public void update(TreeNode root, Integer lower, Integer upper) {
+        stack.push(root);
+        lowers.push(lower);
+        uppers.push(upper);
+    }
+    
+    public boolean isValidBST2(TreeNode root) {
+        Integer lower = null, upper = null;
+        update(root, lower, upper);
+
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            lower = lowers.pop();
+            upper = uppers.pop();
+            
+            if (node == null) continue;
+            
+            if (lower != null && node.val <= lower) return false;
+            if (upper != null && node.val >= upper) return false;
+            update(node.right, node.val, upper);
+            update(node.left, lower, node.val);
+        }
+        return true;
+    }
+    
+    // Approach 2 - In-order - Recursively
+    // Left -> Node -> Right order of inorder traversal means for BST that each element should be smaller than the next one.
+    public boolean isValidBST(TreeNode root) {
+        
+        return inorder(root, true);
+    }
+    
+    
+    TreeNode prev = null;
+    public boolean inorder(TreeNode root, boolean flag) {
+        if (root == null) return true;
+        
+        flag = inorder(root.left, flag);
+        
+        if (prev != null && root.val <= prev.val)
             return false;
         
-        return helper(root.left, low, root.val) && helper(root.right, root.val, high);
-    }
-    
-    */
-    
-    /*
-    // Approach 2 - Inorder Traversal
-    // Left -> Node -> Right order of inorder traversal means 
-    // for BST that each element should be smaller than the next one.
-    // 需要增加一个pre变量记录前一个（即left）的值
-    // time O(n), space O(n)
-    public boolean isValidBST(TreeNode root) {
-        Stack<TreeNode> stack = new Stack();
-        TreeNode pre = null;
+        prev = root;
         
-        while(root != null || !stack.isEmpty()) {
-            
-            while (root != null) {  //find leftmost node
-                stack.push(root);
-                root = root.left;
-            }
-            root = stack.pop();
-            if (pre != null && root.val <= pre.val)  // <= means equal value node should be on right side of subtree, < means on left side
-                return false;
-            pre = root;
-            root = root.right;
-        }
-        return true;
+        return flag && inorder(root.right, flag);
     }
-    */
+
     
-    // if we want to control equal value node should be on while side of subtree:
-    // we add a boolean variable
-    public boolean isValidBST(TreeNode root) {
+    // Approach 2 - In-order - Iteratively
+    // Double.MIN_VALUE is the least positive value 
+    public boolean isValidBST4(TreeNode root) {
         Stack<TreeNode> stack = new Stack();
-        TreeNode pre = null;
-        boolean right = true;   // boolean to control on which side
-        while(root != null || !stack.isEmpty()) {
-            
-            while (root != null) {  //find leftmost node
+        // double value is symmetric
+        double prev = -Double.MAX_VALUE;
+        
+        while (!stack.isEmpty() || root != null) {
+            while (root != null) {
                 stack.push(root);
                 root = root.left;
             }
             root = stack.pop();
-            /**********/
-            if (pre != null && (right && root.val <= pre.val) || (!right && root.val < pre.val))  
+            
+            if (root.val <= prev)
                 return false;
-            pre = root;
-            root = root.right;
+            
+            prev = root.val;
+            root = root.right; 
         }
         return true;
     }
-    
 }
