@@ -1,0 +1,36 @@
+       class Solution {
+    /* questions to ask:
+    1. Can I ignore cases?
+    2. Are spaces couted as part of string? I mean, do we consider only alphanumeric characters?
+    3. How do i treat empty string? is it valid or not valid?
+    */
+    // Approach 1 - Two pointers
+    public boolean isPalindrome(String s) {
+        if (s == null || s.length() == 0) return true;
+        // To lower case
+        String str = s.toLowerCase();
+        
+        // two pointers
+        int left = 0, right = s.length() - 1;
+        
+        while (left < right) {
+            char cLeft = str.charAt(left);
+            char cRight = str.charAt(right);
+            
+            if (!Character.isLetterOrDigit(cLeft))
+                left++;
+            else if (!Character.isLetterOrDigit(cRight))
+                right--;
+            else if ( cLeft != cRight) {
+                return false;
+            }
+            else {
+                left++;
+                right--;
+            }           
+        }
+        return true;
+    }
+    
+    // Approach 2 - regex & reverse string
+}
